@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import "./login.css";
-
+import { LoginSocialFacebook } from "reactjs-social-login";
+import { ProfileData } from "./ProfileData";
 export const Login = () => {
-  return (
+  const [profile, setProfile] = useState(null);
+  return !profile ? (
     <div className="container">
       <div className="login-container">
-        <img src="logo192.png" alt="" className="profile_image" />
+        <img src="logo192.png" alt="Profile" className="profile_image" />
+
         <p className="login_name">Login</p>
         <p className="login_details">Enter your login details</p>
         <div className="inputs-fields">
@@ -39,9 +42,9 @@ export const Login = () => {
             </svg>
             <input type="password" placeholder="Enter password" />
           </div>
-          <div>
-            <button className="login_btn">Login</button>
-          </div>
+
+          <button className="login_btn">Login</button>
+
           <div className="sign_forget">
             <button className="forget">Forgot password?</button>
             <button className="sign">Sign up!</button>
@@ -50,27 +53,38 @@ export const Login = () => {
         <span className="login_account">Login using account!</span>
         <div className="icons">
           <span className="icon1">
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+            <LoginSocialFacebook
+              appId="267247816186005"
+              onResolve={(response) => {
+                console.log(response);
+                setProfile(response.data);
+              }}
+              onReject={(error) => {
+                console.log(error);
+              }}
             >
-              <rect
-                x="0.5"
-                y="0.5"
-                width="31"
-                height="31"
-                rx="15.5"
-                fill="white"
-                stroke="#4268B3"
-              />
-              <path
-                d="M12.0114 22V10.3636H19.7159V12.392H14.4716V15.1648H19.2045V17.1932H14.4716V22H12.0114Z"
-                fill="#4268B3"
-              />
-            </svg>
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  x="0.5"
+                  y="0.5"
+                  width="31"
+                  height="31"
+                  rx="15.5"
+                  fill="white"
+                  stroke="#4268B3"
+                />
+                <path
+                  d="M12.0114 22V10.3636H19.7159V12.392H14.4716V15.1648H19.2045V17.1932H14.4716V22H12.0114Z"
+                  fill="#4268B3"
+                />
+              </svg>{" "}
+            </LoginSocialFacebook>
           </span>
           <span className="icon2">
             <svg
@@ -95,7 +109,7 @@ export const Login = () => {
               />
             </svg>
           </span>
-          <span>
+          <span className="icon3">
             <svg
               width="32"
               height="32"
@@ -121,5 +135,9 @@ export const Login = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <ProfileData name={profile.name} profileImage={profile.picture.data.url} />
   );
 };
+// 943018390513254
+// 267247816186005
